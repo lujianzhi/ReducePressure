@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">ReducePressure</string>
+
+    <!--注册登陆-->
+    <string name="login_phone_hint">请输入手机号</string>
+    <string name="login_password_hint">请输入密码</string>
+    <string name="logo_r">R</string>
+    <string name="logo_educe">educe</string>
+    <string name="logo_p">P</string>
+    <string name="logo_ressure">ressure</string>
+    <string name="login">登陆</string>
+    <string name="other_login">第三方登陆</string>
+    <string name="register">注册</string>
+    <string name="phone_number">手机号</string>
+    <string name="password">密码</string>
+    <string name="verification_code">验证码</string>
+    <string name="get_verification_code">获取验证码</string>
+
+    <!--进度对话框-->
+    <string name="operating">操作中</string>
+
 </resources>

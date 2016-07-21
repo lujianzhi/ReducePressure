@@ -1,13 +1,19 @@
 package com.reducepressure.activity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.os.Bundle;
-import android.view.View;
+
+import com.reducepressure.widget.MyProgressDialog;
+
+import butterknife.ButterKnife;
 
 /***
  * Created by Lawson on 2016/7/17.
  */
-public abstract class BaseActivity extends Activity implements View.OnClickListener {
+public abstract class BaseActivity extends Activity {
+
+    protected Dialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,10 +28,32 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
         } else {
             throw new RuntimeException("未加载布局文件!");
         }
-        initViews();
+        ButterKnife.bind(this);
+        addActivityToList();
+        initViewsFunction();
     }
 
-    protected abstract void initViews();
+    protected void showLoading() {
+        if (progressDialog == null) {
+            progressDialog = new MyProgressDialog(this);
+            progressDialog.setCancelable(false);
+            progressDialog.setCanceledOnTouchOutside(false);
+        }
+        if (!progressDialog.isShowing()) {
+            progressDialog.show();
+        }
+    }
+
+    protected void dismissLoading() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
+    }
+
+    protected abstract void addActivityToList();
+
+    protected abstract void initViewsFunction();
 
     protected abstract int getLayoutId();
 

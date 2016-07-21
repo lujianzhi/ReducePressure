@@ -1,8 +1,8 @@
 package com.reducepressure.activity;
 
 import android.os.Bundle;
-import android.view.View;
 
+import com.reducepressure.MyApplication;
 import com.reducepressure.R;
 
 /***
@@ -16,17 +16,17 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected void initViews() {
+    protected void addActivityToList() {
+        MyApplication.addActivity(MainActivity.this);
+    }
+
+    @Override
+    protected void initViewsFunction() {
 
     }
 
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
-    }
-
-    @Override
-    public void onClick(View v) {
-
     }
 }
