@@ -1,4 +1,4 @@
-package com.reducepressure.activity;
+package com.reducepressure.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,11 +10,11 @@ import android.widget.EditText;
 import com.reducepressure.MyApplication;
 import com.reducepressure.R;
 import com.reducepressure.contract.LoginContract;
+import com.reducepressure.entity.User;
 import com.reducepressure.presenter.LoginPresenter;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import cn.bmob.v3.BmobUser;
 
 public class LoginActivity extends BaseActivity implements LoginContract.LoginView {
 
@@ -74,10 +74,10 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
 
     @OnClick(R.id.login)
     void login() {
-        BmobUser bmobUser = new BmobUser();
-        bmobUser.setUsername(phone.getText().toString());
-        bmobUser.setPassword(password.getText().toString());
-        loginPresenter.login(bmobUser);
+        User user = MyApplication.getCurrentUser();
+        user.setUsername(phone.getText().toString());
+        user.setPassword(password.getText().toString());
+        loginPresenter.login(user);
     }
 
     @OnClick(R.id.register)
@@ -102,8 +102,13 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
 
     @Override
     public void goToMainActivity() {
-        MyApplication.removeActivity(LoginActivity.this);
         startActivity(new Intent(this, MainActivity.class));
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MyApplication.removeActivity(LoginActivity.this);
     }
 }

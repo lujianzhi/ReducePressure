@@ -15,16 +15,16 @@ import cn.bmob.v3.BmobUser;
 public class User extends BmobUser {
 
     //头像
-    private String picUrl;
+    private String headPortrait;
 
     public User() {
     }
 
-    public String getPicUrl() {
-        return picUrl;
+    public String getHeadPortrait() {
+        return headPortrait;
     }
 
-    public void setPicUrl(String picUrl) {
-        this.picUrl = picUrl;
+    public void setHeadPortrait(String headPortrait) {
+        this.headPortrait = headPortrait;
     }
 }

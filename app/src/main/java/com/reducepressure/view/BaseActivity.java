@@ -1,4 +1,4 @@
-package com.reducepressure.activity;
+package com.reducepressure.view;
 
 import android.app.Activity;
 import android.app.Dialog;

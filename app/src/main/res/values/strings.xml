@@ -19,4 +19,25 @@
     <!--进度对话框-->
     <string name="operating">操作中</string>
 
+    <!--behavior-->
+    <string name="ScrollingViewBehavior">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
+
+    <!--侧拉菜单-->
+    <string name="user_name">用户名</string>
+    <string name="edit_center">用户中心</string>
+    <string name="user_feedback">用户反馈</string>
+
+    <!--用户中心-->
+    <string name="nick_name">昵称</string>
+    <string name="real_name">姓名</string>
+    <string name="user_age">年龄</string>
+    <string name="user_phone">手机号</string>
+    <string name="user_sex">性别</string>
+    <string name="edit_data">修改个人信息</string>
+    <string name="edit_password">修改密码</string>
+    <string name="edit_old_password">旧密码</string>
+    <string name="edit_new_password">新密码</string>
+    <string name="edit_new_password_again">再次输入新密码</string>
+
+
 </resources>

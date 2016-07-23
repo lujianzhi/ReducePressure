@@ -5,6 +5,7 @@ import android.app.Application;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.reducepressure.entity.User;
 import com.reducepressure.utils.MyConstants;
 import com.reducepressure.utils.MyToastUtils;
 
@@ -22,6 +23,7 @@ public class MyApplication extends Application {
 
     public static RequestQueue requestQueue;
     public static List<Activity> activityList = new ArrayList<>();
+    private static User user;
 
     @Override
     public void onCreate() {
@@ -41,6 +43,13 @@ public class MyApplication extends Application {
         requestQueue = Volley.newRequestQueue(getApplicationContext());
 
         MyToastUtils.initMyToastUtils(getApplicationContext());
+    }
+
+    public static User getCurrentUser() {
+        if (user == null) {
+            user = new User();
+        }
+        return user;
     }
 
     public static RequestQueue getRequestQueue() {

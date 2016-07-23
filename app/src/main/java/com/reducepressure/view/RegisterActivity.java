@@ -1,4 +1,4 @@
-package com.reducepressure.activity;
+package com.reducepressure.view;
 
 import android.content.Context;
 import android.widget.Button;
@@ -7,6 +7,7 @@ import android.widget.EditText;
 import com.reducepressure.MyApplication;
 import com.reducepressure.R;
 import com.reducepressure.contract.RegisterContract;
+import com.reducepressure.entity.User;
 import com.reducepressure.presenter.RegisterPresenter;
 
 import butterknife.BindView;
@@ -77,17 +78,22 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.R
 
     @Override
     public void verifySuccess() {
-        MyApplication.removeActivity(RegisterActivity.this);
         registerPresenter.insertUserToDatabase();
         finish();
     }
 
     @Override
     public BmobUser getUser() {
-        BmobUser user = new BmobUser();
+        User user = MyApplication.getCurrentUser();
         user.setPassword(password.getText().toString());
         user.setUsername(phoneNumber.getText().toString());
         user.setMobilePhoneNumber(phoneNumber.getText().toString());
         return user;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MyApplication.removeActivity(RegisterActivity.this);
     }
 }
