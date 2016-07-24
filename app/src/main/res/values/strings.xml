@@ -33,11 +33,15 @@
     <string name="user_age">年龄</string>
     <string name="user_phone">手机号</string>
     <string name="user_sex">性别</string>
+    <string name="user_sex_male">男</string>
+    <string name="user_sex_female">女</string>
     <string name="edit_data">修改个人信息</string>
     <string name="edit_password">修改密码</string>
     <string name="edit_old_password">旧密码</string>
     <string name="edit_new_password">新密码</string>
     <string name="edit_new_password_again">再次输入新密码</string>
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
 
 
 </resources>

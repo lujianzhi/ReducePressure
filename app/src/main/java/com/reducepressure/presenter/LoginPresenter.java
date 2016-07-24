@@ -42,7 +42,15 @@ public class LoginPresenter implements LoginContract.LoginPresenter {
                         @Override
                         public void done(List<User> list, BmobException e) {
                             if (e == null) {
-                                MyApplication.getCurrentUser().setHeadPortrait(list.get(0).getHeadPortrait());
+                                User user = list.get(0);
+                                MyApplication.getCurrentUser().setHeadPortrait(user.getHeadPortrait());
+                                MyApplication.getCurrentUser().setUsername(user.getUsername());
+                                MyApplication.getCurrentUser().setNickName(user.getNickName());
+                                MyApplication.getCurrentUser().setAge(user.getAge());
+                                MyApplication.getCurrentUser().setSex(user.getSex());
+                                MyApplication.getCurrentUser().setRealName(user.getRealName());
+                                MyApplication.getCurrentUser().setMobilePhoneNumber(user.getMobilePhoneNumber());
+                                MyApplication.getCurrentUser().setObjectId(user.getObjectId());
                             } else {
                                 MyLogUtils.e(e.getMessage());
                             }

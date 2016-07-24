@@ -4,18 +4,26 @@ import android.app.Activity;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.reducepressure.MyApplication;
 import com.reducepressure.R;
 import com.reducepressure.contract.MainContract;
+import com.reducepressure.entity.User;
 import com.reducepressure.model.MainModel;
 import com.reducepressure.utils.ImagePickerPicLoder;
+import com.reducepressure.utils.MyCommonUtils;
+import com.reducepressure.utils.MyLogUtils;
 import com.reducepressure.utils.MyToastUtils;
 import com.yancy.imageselector.ImageConfig;
 import com.yancy.imageselector.ImageSelector;
 
 import java.io.File;
+import java.util.List;
 
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
 
 /***
@@ -69,4 +77,75 @@ public class MainPresenter implements MainContract.MainPresenter {
         });
 
     }
+
+    @Override
+    public void updateUserInfo(String nickName, String realName, String age, String sexType) {
+        mainView.startLoading();
+        if (MyCommonUtils.isNullStr(nickName) ||
+                MyCommonUtils.isNullStr(realName) ||
+                MyCommonUtils.isNullStr(age) ||
+                MyCommonUtils.isNullStr(sexType)) {
+            MyToastUtils.showShortToast("请填写完整信息");
+            mainView.stopLoading();
+        } else {
+            mainModel.updateUserInfo(nickName, realName, age, sexType, new UpdateListener() {
+                @Override
+                public void done(BmobException e) {
+                    mainView.stopLoading();
+                    if (e == null) {
+                        MyToastUtils.showShortToast("修改成功");
+                        mainView.updateUIAfterEditUserInfo();
+                        mainView.dismissDialog();
+                    } else {
+                        MyToastUtils.showShortToast("修改失败");
+                        MyLogUtils.e(e.getMessage());
+                    }
+                }
+            });
+        }
+    }
+
+    @Override
+    public void updatePassword(String oldPassword, final String newPassword, String newPasswordAgain) {
+        mainView.startLoading();
+        if (MyCommonUtils.isNullStr(oldPassword) ||
+                MyCommonUtils.isNullStr(newPassword) ||
+                MyCommonUtils.isNullStr(newPasswordAgain)) {
+            MyToastUtils.showShortToast("请填写完整信息");
+            mainView.stopLoading();
+        } else if (!newPassword.equals(newPasswordAgain)) {
+            MyToastUtils.showShortToast("两次密码输入不一致");
+            mainView.stopLoading();
+        } else {
+            mainModel.updatePassword(oldPassword, newPassword, new FindListener<BmobUser>() {
+                @Override
+                public void done(List<BmobUser> list, BmobException e) {
+                    if (e == null && list.size() != 0) {
+                        User user = MyApplication.getCurrentUser();
+                        user.setPassword(newPassword);
+                        user.update(user.getObjectId(), new UpdateListener() {
+                            @Override
+                            public void done(BmobException e) {
+                                mainView.stopLoading();
+                                if (e == null) {
+                                    MyToastUtils.showShortToast("修改成功");
+                                    mainView.dismissDialog();
+                                } else {
+                                    MyToastUtils.showShortToast("修改失败");
+                                    MyLogUtils.e(e.getMessage());
+                                }
+                            }
+                        });
+                    } else {
+                        mainView.stopLoading();
+                        MyToastUtils.showShortToast("密码错误");
+                        if (e != null) {
+                            MyLogUtils.e(e.getMessage());
+                        }
+                    }
+                }
+            });
+        }
+    }
+
 }

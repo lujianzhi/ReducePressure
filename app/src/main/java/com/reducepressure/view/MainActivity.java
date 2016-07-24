@@ -23,6 +23,8 @@ import com.reducepressure.R;
 import com.reducepressure.contract.MainContract;
 import com.reducepressure.entity.User;
 import com.reducepressure.presenter.MainPresenter;
+import com.reducepressure.widget.MyUpdatePasswordDialog;
+import com.reducepressure.widget.MyUpdateUserInfoDialog;
 import com.yancy.imageselector.ImageSelector;
 import com.yancy.imageselector.ImageSelectorActivity;
 
@@ -50,6 +52,7 @@ public class MainActivity extends BaseActivity implements MainContract.MainView,
     private BottomSheetDialog userCenterDialog;
 
     private MainContract.MainPresenter mainPresenter;
+    private User user = MyApplication.getCurrentUser();
 
     @Override
     protected void addActivityToList() {
@@ -68,10 +71,12 @@ public class MainActivity extends BaseActivity implements MainContract.MainView,
 
     }
 
+    private TextView navigationUserName;
+
     private void initNavigationView() {
-        User user = MyApplication.getCurrentUser();
         View view = navigationView.getHeaderView(0);
-        ((TextView) view.findViewById(R.id.user_name)).setText(user.getUsername());
+        navigationUserName = (TextView) view.findViewById(R.id.user_name);
+        navigationUserName.setText(user.getNickName());
 
         headPortrait = (ImageView) view.findViewById(R.id.head_portrait);
         headPortrait.setOnClickListener(new View.OnClickListener() {
@@ -107,20 +112,20 @@ public class MainActivity extends BaseActivity implements MainContract.MainView,
 
     }
 
+    private TextView userName;
+
     private void createUserCenterDialog() {
         userCenterDialog = new BottomSheetDialog(this);
         View view = LayoutInflater.from(this).inflate(R.layout.user_center_layout, null, false);
         userCenterDialog.setContentView(view);
 
         CircleImageView headPortrait = (CircleImageView) view.findViewById(R.id.head_portrait);
-        TextView userName = (TextView) view.findViewById(R.id.user_name);
+        userName = (TextView) view.findViewById(R.id.user_name);
         TextView userPhone = (TextView) view.findViewById(R.id.user_phone);
         LinearLayout editInfo = (LinearLayout) view.findViewById(R.id.edit_info);
         LinearLayout editPassword = (LinearLayout) view.findViewById(R.id.edit_password);
-        //TODO 视图逻辑
 
-        User user = MyApplication.getCurrentUser();
-        userName.setText(user.getUsername());
+        userName.setText(user.getNickName());
         userPhone.setText(user.getMobilePhoneNumber());
         Glide.with(this).load(user.getHeadPortrait()).into(headPortrait);
 
@@ -184,11 +189,42 @@ public class MainActivity extends BaseActivity implements MainContract.MainView,
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.edit_info:
-
+                showUpdateInfoDialog();
                 break;
             case R.id.edit_password:
-
+                showUpdatePasswordDialog();
                 break;
+        }
+    }
+
+    private MyUpdateUserInfoDialog editUserInfoDialog;
+    private MyUpdatePasswordDialog updatePasswordDialog;
+
+    private void showUpdateInfoDialog() {
+        editUserInfoDialog = new MyUpdateUserInfoDialog(this, mainPresenter);
+        editUserInfoDialog.show();
+        userCenterDialog.dismiss();
+    }
+
+    private void showUpdatePasswordDialog() {
+        updatePasswordDialog = new MyUpdatePasswordDialog(this, mainPresenter);
+        updatePasswordDialog.show();
+        userCenterDialog.dismiss();
+    }
+
+    @Override
+    public void updateUIAfterEditUserInfo() {
+        userName.setText(user.getNickName());
+        navigationUserName.setText(user.getNickName());
+    }
+
+    @Override
+    public void dismissDialog() {
+        if (editUserInfoDialog != null && editUserInfoDialog.isShowing()) {
+            editUserInfoDialog.dismiss();
+        }
+        if (updatePasswordDialog != null && updatePasswordDialog.isShowing()) {
+            updatePasswordDialog.dismiss();
         }
     }
 }

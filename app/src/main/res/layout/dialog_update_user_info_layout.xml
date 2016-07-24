@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                android:gravity="center"
+                android:padding="10dp">
+
+    <TextView
+        android:id="@+id/tip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/edit_data"
+        android:textColor="@color/text_white"
+        android:textSize="@dimen/tip_text_size"/>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/tip"
+        android:layout_marginTop="@dimen/area_margin_top"
+        android:background="@color/colorPrimary"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider"
+        android:layout_marginTop="@dimen/area_margin_top"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/nick_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableBottom="@drawable/selector_edit_text_under_line"
+            android:hint="@string/nick_name"
+            android:inputType="text"
+            android:maxEms="10"
+            android:textColor="@color/colorAccent"
+            android:textColorHint="@color/text_white"
+            android:textSize="@dimen/main_text_size"/>
+
+        <EditText
+            android:id="@+id/real_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableBottom="@drawable/selector_edit_text_under_line"
+            android:hint="@string/real_name"
+            android:inputType="text"
+            android:maxEms="10"
+            android:textColor="@color/colorAccent"
+            android:textColorHint="@color/text_white"
+            android:textSize="@dimen/main_text_size"/>
+
+        <EditText
+            android:id="@+id/user_age"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableBottom="@drawable/selector_edit_text_under_line"
+            android:hint="@string/user_age"
+            android:inputType="number"
+            android:maxEms="3"
+            android:textColor="@color/colorAccent"
+            android:textColorHint="@color/text_white"
+            android:textSize="@dimen/main_text_size"/>
+
+        <RadioGroup
+            android:id="@+id/sex"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/male"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:button="@null"
+                android:drawableLeft="@drawable/selector_radio_button_white"
+                android:drawablePadding="@dimen/area_margin_top"
+                android:drawableStart="@drawable/selector_radio_button_white"
+                android:text="@string/user_sex_male"
+                android:textColor="@color/text_white"
+                android:textSize="@dimen/main_text_size"/>
+
+            <RadioButton
+                android:id="@+id/female"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:background="@null"
+                android:button="@null"
+                android:drawableLeft="@drawable/selector_radio_button_white"
+                android:drawablePadding="@dimen/area_margin_top"
+                android:drawableStart="@drawable/selector_radio_button_white"
+                android:text="@string/user_sex_female"
+                android:textColor="@color/text_white"
+                android:textSize="@dimen/main_text_size"/>
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/area_margin_top"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_button_type_one"
+                android:contentDescription="@string/app_name"
+                android:text="@string/confirm"
+                android:textColor="@color/text_white"/>
+
+            <Button
+                android:id="@+id/cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:background="@drawable/selector_button_type_one"
+                android:contentDescription="@string/app_name"
+                android:text="@string/cancel"
+                android:textColor="@color/text_white"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

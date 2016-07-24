@@ -76,6 +76,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
     void login() {
         User user = MyApplication.getCurrentUser();
         user.setUsername(phone.getText().toString());
+        user.setNickName(phone.getText().toString());
         user.setPassword(password.getText().toString());
         loginPresenter.login(user);
     }
