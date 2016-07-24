@@ -9,6 +9,7 @@ import com.reducepressure.view.IBaseView;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 
 /***
@@ -51,6 +52,11 @@ public interface MainContract {
          * 修改密码
          */
         void updatePassword(String oldPassword, String newPassword, String newPasswordAgain);
+
+        /**
+         * 用户反馈
+         */
+        void userFeedback(String content);
     }
 
     interface MainModel extends IBaseModel {
@@ -69,6 +75,11 @@ public interface MainContract {
          * 修改密码
          */
         void updatePassword(String oldPassword, String newPassword, FindListener<BmobUser> findListener);
+
+        /**
+         * 用户反馈
+         */
+        void userFeedback(String content, SaveListener<String> saveListener);
     }
 
 }

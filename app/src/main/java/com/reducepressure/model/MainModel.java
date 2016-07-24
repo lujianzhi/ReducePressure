@@ -2,6 +2,7 @@ package com.reducepressure.model;
 
 import com.reducepressure.MyApplication;
 import com.reducepressure.contract.MainContract;
+import com.reducepressure.entity.FeedBack;
 import com.reducepressure.entity.User;
 import com.reducepressure.utils.MyLogUtils;
 
@@ -9,6 +10,7 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 
 /***
@@ -49,5 +51,13 @@ public class MainModel implements MainContract.MainModel {
         query.addWhereEqualTo("password", oldPassword);
         query.addWhereEqualTo("objectId", user.getObjectId());
         query.findObjects(findListener);
+    }
+
+    @Override
+    public void userFeedback(String content, SaveListener<String> saveListener) {
+        FeedBack feedBack = new FeedBack();
+        feedBack.setContent(content);
+        feedBack.setUserId(user.getObjectId());
+        feedBack.save(saveListener);
     }
 }

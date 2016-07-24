@@ -23,6 +23,7 @@ import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
 
@@ -142,6 +143,29 @@ public class MainPresenter implements MainContract.MainPresenter {
                         if (e != null) {
                             MyLogUtils.e(e.getMessage());
                         }
+                    }
+                }
+            });
+        }
+    }
+
+    @Override
+    public void userFeedback(String content) {
+        mainView.startLoading();
+        if (MyCommonUtils.isNullStr(content)) {
+            mainView.stopLoading();
+            MyToastUtils.showShortToast("请输入反馈内容");
+        } else {
+            mainModel.userFeedback(content, new SaveListener<String>() {
+                @Override
+                public void done(String s, BmobException e) {
+                    mainView.stopLoading();
+                    if (e == null) {
+                        MyToastUtils.showShortToast("我们已经收到了您的反馈~");
+                        mainView.dismissDialog();
+                    } else {
+                        MyToastUtils.showShortToast("您的反馈失败了");
+                        MyLogUtils.e(e.getMessage());
                     }
                 }
             });

@@ -23,6 +23,7 @@ import com.reducepressure.R;
 import com.reducepressure.contract.MainContract;
 import com.reducepressure.entity.User;
 import com.reducepressure.presenter.MainPresenter;
+import com.reducepressure.widget.MyFeedBackDialog;
 import com.reducepressure.widget.MyUpdatePasswordDialog;
 import com.reducepressure.widget.MyUpdateUserInfoDialog;
 import com.yancy.imageselector.ImageSelector;
@@ -36,7 +37,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /***
  * Created by Lawson on 2016/7/17.
  */
-public class MainActivity extends BaseActivity implements MainContract.MainView, View.OnClickListener {
+public class MainActivity extends BaseActivity implements MainContract.MainView, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.toolBar)
     Toolbar toolBar;
@@ -93,22 +94,7 @@ public class MainActivity extends BaseActivity implements MainContract.MainView,
 
         createUserCenterDialog();
 
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.edit_info:
-                        drawerLayout.closeDrawer(navigationView);
-                        if (userCenterDialog.isShowing()) {
-                            userCenterDialog.dismiss();
-                        } else {
-                            userCenterDialog.show();
-                        }
-                        break;
-                }
-                return false;
-            }
-        });
+        navigationView.setNavigationItemSelectedListener(this);
 
     }
 
@@ -226,5 +212,34 @@ public class MainActivity extends BaseActivity implements MainContract.MainView,
         if (updatePasswordDialog != null && updatePasswordDialog.isShowing()) {
             updatePasswordDialog.dismiss();
         }
+        if (feedBackDialog != null && feedBackDialog.isShowing()) {
+            feedBackDialog.dismiss();
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.edit_info:
+                drawerLayout.closeDrawer(navigationView);
+                if (userCenterDialog.isShowing()) {
+                    userCenterDialog.dismiss();
+                } else {
+                    userCenterDialog.show();
+                }
+                break;
+            case R.id.user_feedback:
+                drawerLayout.closeDrawer(navigationView);
+                showFeedbackDialog();
+                break;
+        }
+        return false;
+    }
+
+    private MyFeedBackDialog feedBackDialog;
+
+    private void showFeedbackDialog() {
+        feedBackDialog = new MyFeedBackDialog(this, mainPresenter);
+        feedBackDialog.show();
     }
 }
