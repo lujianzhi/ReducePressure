@@ -1,8 +1,8 @@
 package com.reducepressure.view;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import com.reducepressure.widget.MyProgressDialog;
 
@@ -11,7 +11,7 @@ import butterknife.ButterKnife;
 /***
  * Created by Lawson on 2016/7/17.
  */
-public abstract class BaseActivity extends Activity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     protected Dialog progressDialog;
 

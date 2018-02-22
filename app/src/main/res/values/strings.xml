@@ -40,11 +40,17 @@
     <string name="edit_old_password">旧密码</string>
     <string name="edit_new_password">新密码</string>
     <string name="edit_new_password_again">再次输入新密码</string>
+
+    <!--常用-->
     <string name="confirm">确定</string>
     <string name="cancel">取消</string>
 
     <!--用户反馈-->
     <string name="feedback_content">请输入反馈内容</string>
 
+    <!--权限申请-->
+    <string name="permission_text">需要您授权"%1$s"权限</string>
+    <string name="permission_success">获取权限成功</string>
+    <string name="permission_fail">获取权限失败</string>
 
 </resources>

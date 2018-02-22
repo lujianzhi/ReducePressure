@@ -1,6 +1,10 @@
 package com.reducepressure.view;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -9,6 +13,8 @@ import com.reducepressure.R;
 import com.reducepressure.contract.RegisterContract;
 import com.reducepressure.entity.User;
 import com.reducepressure.presenter.RegisterPresenter;
+import com.reducepressure.utils.MyPermissionDialogUtils;
+import com.reducepressure.utils.MyToastUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -53,7 +59,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.R
     }
 
     private void changeButtonState() {
-        registerPresenter.sendMessageVerification(phoneNumber.getText().toString());
+        registerPresenter.sendMessageVerificationForPermission(phoneNumber.getText().toString());
     }
 
     @Override
@@ -89,6 +95,52 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.R
         user.setUsername(phoneNumber.getText().toString());
         user.setMobilePhoneNumber(phoneNumber.getText().toString());
         return user;
+    }
+
+    @Override
+    public FragmentManager viewGetSupportFragmentManager() {
+        return getSupportFragmentManager();
+    }
+
+    @Override
+    public int myCheckSelfPermission(String permission) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return checkSelfPermission(permission);
+        }
+        return -1;
+    }
+
+    @Override
+    public boolean myShouldShowRequestPermissionRationale(String permission) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return shouldShowRequestPermissionRationale(permission);
+        }
+        return false;
+    }
+
+    @Override
+    public void myRequestPermissions(String[] permissions, int requestCode) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(permissions, requestCode);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case MyPermissionDialogUtils.READ_PHONE_STATE:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    registerPresenter.sendMessageVerification(phoneNumber.getText().toString());
+                } else {
+                    MyToastUtils.showShortToast(R.string.permission_fail);
+                    stopLoading();
+                }
+                break;
+
+            default:
+                break;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override

@@ -12,4 +12,11 @@ public class MyCommonUtils {
         return str == null || "".equals(str);
     }
 
+    /**
+     * 检测是否为空
+     */
+    public static boolean isNotNull(Object object) {
+        return object != null;
+    }
+
 }

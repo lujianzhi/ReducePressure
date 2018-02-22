@@ -1,10 +1,14 @@
 package com.reducepressure.presenter;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+
 import com.reducepressure.contract.RegisterContract;
 import com.reducepressure.entity.User;
 import com.reducepressure.model.RegisterModel;
 import com.reducepressure.utils.MyCountDownTimer;
 import com.reducepressure.utils.MyLogUtils;
+import com.reducepressure.utils.MyPermissionDialogUtils;
 import com.reducepressure.utils.MyToastUtils;
 
 import cn.bmob.sms.exception.BmobException;
@@ -26,28 +30,38 @@ public class RegisterPresenter implements RegisterContract.RegisterPresenter {
     }
 
     @Override
-    public void sendMessageVerification(String phoneNumber) {
+    public void sendMessageVerificationForPermission(String phoneNumber) {
         registerView.startLoading();
         if ("".equals(phoneNumber)) {
             registerView.stopLoading();
             MyToastUtils.showShortToast("请输入手机号");
         } else {
-            MyCountDownTimer myCountDownTimer = new MyCountDownTimer(registerView.getVerificationCodeButton(), 60000, 1000);
-            myCountDownTimer.start();
-            registerModel.sendMessageVerification(registerView.getContext(), phoneNumber, new RequestSMSCodeListener() {
-                @Override
-                public void done(Integer integer, BmobException e) {
-                    registerView.stopLoading();
-                    if (e == null) {
-                        MyToastUtils.showShortToast("短信发送成功");
-                        MyLogUtils.i("短信id:" + integer);
-                    } else {
-                        MyToastUtils.showShortToast("短信发送失败");
-                        MyLogUtils.e("短信发送失败 : " + e.getMessage());
-                    }
-                }
-            });
+            if (registerView.myCheckSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                MyPermissionDialogUtils.showDialog(registerView, Manifest.permission.READ_PHONE_STATE, Manifest.permission.SEND_SMS, Manifest.permission.RECEIVE_SMS);
+            } else {
+                registerView.stopLoading();
+                sendMessageVerification(phoneNumber);
+            }
         }
+    }
+
+    @Override
+    public void sendMessageVerification(String phoneNumber) {
+        MyCountDownTimer myCountDownTimer = new MyCountDownTimer(registerView.getVerificationCodeButton(), 60000, 1000);
+        myCountDownTimer.start();
+        registerModel.sendMessageVerification(registerView.getContext(), phoneNumber, new RequestSMSCodeListener() {
+            @Override
+            public void done(Integer integer, BmobException e) {
+                registerView.stopLoading();
+                if (e == null) {
+                    MyToastUtils.showShortToast("短信发送成功");
+                    MyLogUtils.i("短信id:" + integer);
+                } else {
+                    MyToastUtils.showShortToast("短信发送失败");
+                    MyLogUtils.e("短信发送失败 : " + e.getMessage());
+                }
+            }
+        });
     }
 
     @Override

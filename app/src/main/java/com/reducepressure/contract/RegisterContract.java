@@ -1,6 +1,7 @@
 package com.reducepressure.contract;
 
 import android.content.Context;
+import android.support.v4.app.FragmentManager;
 import android.widget.Button;
 
 import com.reducepressure.entity.User;
@@ -34,9 +35,34 @@ public interface RegisterContract {
          * 获取用户信息
          */
         BmobUser getUser();
+
+        /**
+         * 获取FragmentManager
+         */
+        FragmentManager viewGetSupportFragmentManager();
+
+        /**
+         * 指定权限状态
+         */
+        int myCheckSelfPermission(String permission);
+
+        /**
+         * 判断用户是否拒绝过给与权限
+         */
+        boolean myShouldShowRequestPermissionRationale(String permission);
+
+        /**
+         * 申请权限
+         */
+        void myRequestPermissions(String[] permissions, int requestCode);
     }
 
     interface RegisterPresenter extends IBasePresenter {
+
+        /**
+         * 发送短信验证请求权限
+         */
+        void sendMessageVerificationForPermission(String phoneNumber);
 
         /**
          * 发送短信验证请求

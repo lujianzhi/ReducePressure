@@ -22,5 +22,12 @@ public class MyToastUtils {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 
+    public static void showLongToast(int resId) {
+        Toast.makeText(context, resId, Toast.LENGTH_LONG).show();
+    }
+
+    public static void showShortToast(int resId) {
+        Toast.makeText(context, resId, Toast.LENGTH_SHORT).show();
+    }
 
 }
